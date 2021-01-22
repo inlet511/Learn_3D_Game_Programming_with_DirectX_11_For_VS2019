@@ -13,6 +13,7 @@
 #include "d3dx11Effect.h"
 #include "GeometryGenerator.h"
 #include "MathHelper.h"
+using namespace DirectX;
 
 struct Vertex
 {
