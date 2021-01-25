@@ -18,6 +18,8 @@
 #include "Effects.h"
 #include "Vertex.h"
 
+using namespace DirectX;
+
 class LitSkullApp : public D3DApp 
 {
 public:

@@ -4,6 +4,8 @@
 
 #include "Effects.h"
 
+
+
 #pragma region Effect
 Effect::Effect(ID3D11Device* device, const std::wstring& filename)
 	: mFX(0)

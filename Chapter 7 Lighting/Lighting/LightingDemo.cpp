@@ -15,6 +15,8 @@
 #include "LightHelper.h"
 #include "Waves.h"
 
+using namespace DirectX;
+
 struct Vertex
 {
 	XMFLOAT3 Pos;
