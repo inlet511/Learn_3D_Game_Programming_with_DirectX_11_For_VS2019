@@ -17,6 +17,8 @@
 #include "Effects.h"
 #include "Vertex.h"
 
+using namespace DirectX;
+
 class CrateApp : public D3DApp
 {
 public:
@@ -129,8 +131,10 @@ bool CrateApp::Init()
 	Effects::InitAll(md3dDevice);
 	InputLayouts::InitAll(md3dDevice);
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/WoodCrate01.dds", 0, 0, &mDiffuseMapSRV, 0 ));
+	/*HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
+		L"Textures/WoodCrate01.dds", 0, 0, &mDiffuseMapSRV, 0 ));*/
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/WoodCrate01.dds", nullptr, &mDiffuseMapSRV));
  
 	BuildGeometryBuffers();
 

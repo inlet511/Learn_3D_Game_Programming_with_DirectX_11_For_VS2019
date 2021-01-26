@@ -114,7 +114,7 @@ fxgroup
                 //   o1.x <- <VS return value>.PosW.x; o1.y <- <VS return value>.PosW.y; o1.z <- <VS return value>.PosW.z; 
                 //   o0.x <- <VS return value>.PosH.x; o0.y <- <VS return value>.PosH.y; o0.z <- <VS return value>.PosH.z; o0.w <- <VS return value>.PosH.w
                 //
-                #line 58 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 58 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[0].xyzw  // r1.x <- vout.PosW.x
@@ -228,7 +228,7 @@ fxgroup
                 //   v2.x <- pin.NormalW.x; v2.y <- pin.NormalW.y; v2.z <- pin.NormalW.z; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 70 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 70 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 dp3 r0.x, v2.xyzx, v2.xyzx
                 rsq r0.x, r0.x
                 mul r0.xyz, r0.xxxx, v2.xyzx  // r0.x <- pin.NormalW.x; r0.y <- pin.NormalW.y; r0.z <- pin.NormalW.z
@@ -265,7 +265,7 @@ fxgroup
                 mov r0.xyz, r0.xyzx
                 mov r1.xyz, r1.xyzx
                 
-                #line 66 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
+                #line 66 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
                 mov r12.xyz, l(0,0,0,0)  // r12.x <- diffuse.x; r12.y <- diffuse.y; r12.z <- diffuse.z
                 
                 #line 67
@@ -310,7 +310,7 @@ fxgroup
                 movc r0.xyz, r1.wwww, r0.yzwy, r12.xyzx  // r0.x <- diffuse.x; r0.y <- diffuse.y; r0.z <- diffuse.z
                 movc r1.xyz, r1.wwww, r1.xyzx, r13.xyzx
                 
-                #line 96 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 96 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r5.xyz, r5.xyzx  // r5.x <- A.x; r5.y <- A.y; r5.z <- A.z
                 mov r0.xyz, r0.xyzx  // r0.x <- D.x; r0.y <- D.y; r0.z <- D.z
                 mov r1.xyz, r1.xyzx  // r1.x <- S.x; r1.y <- S.y; r1.z <- S.z
@@ -415,7 +415,7 @@ fxgroup
                 //   o1.x <- <VS return value>.PosW.x; o1.y <- <VS return value>.PosW.y; o1.z <- <VS return value>.PosW.z; 
                 //   o0.x <- <VS return value>.PosH.x; o0.y <- <VS return value>.PosH.y; o0.z <- <VS return value>.PosH.z; o0.w <- <VS return value>.PosH.w
                 //
-                #line 58 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 58 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[0].xyzw  // r1.x <- vout.PosW.x
@@ -529,7 +529,7 @@ fxgroup
                 //   v2.x <- pin.NormalW.x; v2.y <- pin.NormalW.y; v2.z <- pin.NormalW.z; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 70 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 70 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 dp3 r0.x, v2.xyzx, v2.xyzx
                 rsq r0.x, r0.x
                 mul r0.xyz, r0.xxxx, v2.xyzx  // r0.x <- pin.NormalW.x; r0.y <- pin.NormalW.y; r0.z <- pin.NormalW.z
@@ -566,7 +566,7 @@ fxgroup
                 mov r0.xyz, r0.xyzx
                 mov r1.xyz, r1.xyzx
                 
-                #line 66 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
+                #line 66 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
                 mov r12.xyz, l(0,0,0,0)  // r12.x <- diffuse.x; r12.y <- diffuse.y; r12.z <- diffuse.z
                 
                 #line 67
@@ -611,7 +611,7 @@ fxgroup
                 movc r6.xyz, r1.wwww, r6.xyzx, r12.xyzx
                 movc r7.xyz, r1.wwww, r7.xyzx, r13.xyzx
                 
-                #line 96 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 96 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r5.xyz, r5.xyzx  // r5.x <- A.x; r5.y <- A.y; r5.z <- A.z
                 mov r6.xyz, r6.xyzx  // r6.x <- D.x; r6.y <- D.y; r6.z <- D.z
                 mov r7.xyz, r7.xyzx  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z
@@ -635,7 +635,7 @@ fxgroup
                 mov r10.xyz, cb0[6].xyzx
                 mov r11.xyz, cb0[7].xyzx  // r11.x <- L.Direction.x; r11.y <- L.Direction.y; r11.z <- L.Direction.z
                 
-                #line 66 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
+                #line 66 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
                 mov r12.xyz, l(0,0,0,0)  // r12.x <- diffuse.x; r12.y <- diffuse.y; r12.z <- diffuse.z
                 
                 #line 67
@@ -680,7 +680,7 @@ fxgroup
                 movc r0.xyz, r1.wwww, r0.yzwy, r12.xyzx  // r0.x <- diffuse.x; r0.y <- diffuse.y; r0.z <- diffuse.z
                 movc r1.xyz, r1.wwww, r1.xyzx, r13.xyzx
                 
-                #line 96 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 96 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r5.xyz, r5.xyzx  // r5.x <- A.x; r5.y <- A.y; r5.z <- A.z
                 mov r0.xyz, r0.xyzx  // r0.x <- D.x; r0.y <- D.y; r0.z <- D.z
                 mov r1.xyz, r1.xyzx  // r1.x <- S.x; r1.y <- S.y; r1.z <- S.z
@@ -785,7 +785,7 @@ fxgroup
                 //   o1.x <- <VS return value>.PosW.x; o1.y <- <VS return value>.PosW.y; o1.z <- <VS return value>.PosW.z; 
                 //   o0.x <- <VS return value>.PosH.x; o0.y <- <VS return value>.PosH.y; o0.z <- <VS return value>.PosH.z; o0.w <- <VS return value>.PosH.w
                 //
-                #line 58 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 58 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r0.xyz, v0.xyzx
                 mov r0.w, l(1.000000)
                 dp4 r1.x, r0.xyzw, cb0[0].xyzw  // r1.x <- vout.PosW.x
@@ -899,7 +899,7 @@ fxgroup
                 //   v2.x <- pin.NormalW.x; v2.y <- pin.NormalW.y; v2.z <- pin.NormalW.z; 
                 //   o0.x <- <PS return value>.x; o0.y <- <PS return value>.y; o0.z <- <PS return value>.z; o0.w <- <PS return value>.w
                 //
-                #line 70 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 70 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 dp3 r0.x, v2.xyzx, v2.xyzx
                 rsq r0.x, r0.x
                 mul r0.xyz, r0.xxxx, v2.xyzx  // r0.x <- pin.NormalW.x; r0.y <- pin.NormalW.y; r0.z <- pin.NormalW.z
@@ -936,7 +936,7 @@ fxgroup
                 mov r0.xyz, r0.xyzx
                 mov r1.xyz, r1.xyzx
                 
-                #line 66 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
+                #line 66 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
                 mov r12.xyz, l(0,0,0,0)  // r12.x <- diffuse.x; r12.y <- diffuse.y; r12.z <- diffuse.z
                 
                 #line 67
@@ -981,7 +981,7 @@ fxgroup
                 movc r6.xyz, r1.wwww, r6.xyzx, r12.xyzx
                 movc r7.xyz, r1.wwww, r7.xyzx, r13.xyzx
                 
-                #line 96 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 96 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r5.xyz, r5.xyzx  // r5.x <- A.x; r5.y <- A.y; r5.z <- A.z
                 mov r6.xyz, r6.xyzx  // r6.x <- D.x; r6.y <- D.y; r6.z <- D.z
                 mov r7.xyz, r7.xyzx  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z
@@ -1005,7 +1005,7 @@ fxgroup
                 mov r10.xyz, cb0[6].xyzx
                 mov r11.xyz, cb0[7].xyzx  // r11.x <- L.Direction.x; r11.y <- L.Direction.y; r11.z <- L.Direction.z
                 
-                #line 66 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
+                #line 66 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
                 mov r12.xyz, l(0,0,0,0)  // r12.x <- diffuse.x; r12.y <- diffuse.y; r12.z <- diffuse.z
                 
                 #line 67
@@ -1050,7 +1050,7 @@ fxgroup
                 movc r6.xyz, r1.wwww, r6.xyzx, r12.xyzx
                 movc r7.xyz, r1.wwww, r7.xyzx, r13.xyzx
                 
-                #line 96 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 96 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r5.xyz, r5.xyzx  // r5.x <- A.x; r5.y <- A.y; r5.z <- A.z
                 mov r6.xyz, r6.xyzx  // r6.x <- D.x; r6.y <- D.y; r6.z <- D.z
                 mov r7.xyz, r7.xyzx  // r7.x <- S.x; r7.y <- S.y; r7.z <- S.z
@@ -1074,7 +1074,7 @@ fxgroup
                 mov r10.xyz, cb0[10].xyzx
                 mov r11.xyz, cb0[11].xyzx  // r11.x <- L.Direction.x; r11.y <- L.Direction.y; r11.z <- L.Direction.z
                 
-                #line 66 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
+                #line 66 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\LightHelper.fx"
                 mov r12.xyz, l(0,0,0,0)  // r12.x <- diffuse.x; r12.y <- diffuse.y; r12.z <- diffuse.z
                 
                 #line 67
@@ -1119,7 +1119,7 @@ fxgroup
                 movc r0.xyz, r1.wwww, r0.yzwy, r12.xyzx  // r0.x <- diffuse.x; r0.y <- diffuse.y; r0.z <- diffuse.z
                 movc r1.xyz, r1.wwww, r1.xyzx, r13.xyzx
                 
-                #line 96 "E:\Dev\Learn_3D_Game_Programming_with_DirectX_11_For_VS2019\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
+                #line 96 "D:\Dev\workspace\D3DPlayground\3D_Game_Programming_with_DirectX_11\Chapter 7 Lighting\LitSkull\FX\Basic.fx"
                 mov r5.xyz, r5.xyzx  // r5.x <- A.x; r5.y <- A.y; r5.z <- A.z
                 mov r0.xyz, r0.xyzx  // r0.x <- D.x; r0.y <- D.y; r0.z <- D.z
                 mov r1.xyz, r1.xyzx  // r1.x <- S.x; r1.y <- S.y; r1.z <- S.z
