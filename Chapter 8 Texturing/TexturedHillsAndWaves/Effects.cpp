@@ -44,7 +44,7 @@ BasicEffect::BasicEffect(ID3D11Device* device, const std::wstring& filename)
 	WorldViewProj     = mFX->GetVariableByName("gWorldViewProj")->AsMatrix();
 	World             = mFX->GetVariableByName("gWorld")->AsMatrix();
 	WorldInvTranspose = mFX->GetVariableByName("gWorldInvTranspose")->AsMatrix();
-	TexTransform      = mFX->GetVariableByName("gTexTransform")->AsMatrix();
+	 
 	EyePosW           = mFX->GetVariableByName("gEyePosW")->AsVector();
 	DirLights         = mFX->GetVariableByName("gDirLights");
 	Mat               = mFX->GetVariableByName("gMaterial");

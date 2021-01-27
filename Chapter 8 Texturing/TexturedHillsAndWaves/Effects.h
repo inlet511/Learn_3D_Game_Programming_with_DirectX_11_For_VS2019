@@ -10,6 +10,7 @@
 
 #include "d3dUtil.h"
 
+using namespace DirectX;
 #pragma region Effect
 class Effect
 {

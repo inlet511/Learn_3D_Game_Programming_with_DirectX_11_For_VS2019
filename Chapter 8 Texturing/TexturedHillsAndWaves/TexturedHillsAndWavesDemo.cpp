@@ -17,7 +17,7 @@
 #include "Effects.h"
 #include "Vertex.h"
 #include "Waves.h"
-
+using namespace DirectX;
 class TexturedHillsAndWavesApp : public D3DApp
 {
 public:
@@ -157,11 +157,11 @@ bool TexturedHillsAndWavesApp::Init()
 	Effects::InitAll(md3dDevice);
 	InputLayouts::InitAll(md3dDevice);
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/grass.dds", 0, 0, &mGrassMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/grass.dds", 0, &mGrassMapSRV ));
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/water2.dds", 0, 0, &mWavesMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/water2.dds",0, &mWavesMapSRV ));
 
 	BuildLandGeometryBuffers();
 	BuildWaveGeometryBuffers();

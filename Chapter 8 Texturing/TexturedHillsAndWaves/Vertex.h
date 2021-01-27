@@ -8,7 +8,7 @@
 #define VERTEX_H
 
 #include "d3dUtil.h"
-
+using namespace DirectX;
 namespace Vertex
 {
 	// Basic 32-byte vertex structure.
