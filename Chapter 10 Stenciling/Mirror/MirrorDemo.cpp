@@ -26,6 +26,8 @@
 #include "RenderStates.h"
 #include "Waves.h"
 
+using namespace DirectX;
+
 enum RenderOptions
 {
 	Lighting = 0,
@@ -179,14 +181,14 @@ bool MirrorApp::Init()
 	InputLayouts::InitAll(md3dDevice);
 	RenderStates::InitAll(md3dDevice);
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/checkboard.dds", 0, 0, &mFloorDiffuseMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/checkboard.dds", 0, &mFloorDiffuseMapSRV));
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/brick01.dds", 0, 0, &mWallDiffuseMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/brick01.dds", 0, &mWallDiffuseMapSRV));
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/ice.dds", 0, 0, &mMirrorDiffuseMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/ice.dds", 0,&mMirrorDiffuseMapSRV));
  
 	BuildRoomGeometryBuffers();
 	BuildSkullGeometryBuffers();
@@ -544,8 +546,8 @@ void MirrorApp::OnMouseMove(WPARAM btnState, int x, int y)
 		float dy = XMConvertToRadians(0.25f*static_cast<float>(y - mLastMousePos.y));
 
 		// Update angles based on input to orbit camera around box.
-		mTheta += dx;
-		mPhi   += dy;
+		mTheta -= dx;
+		mPhi   -= dy;
 
 		// Restrict the angle mPhi.
 		mPhi = MathHelper::Clamp(mPhi, 0.1f, MathHelper::Pi-0.1f);
