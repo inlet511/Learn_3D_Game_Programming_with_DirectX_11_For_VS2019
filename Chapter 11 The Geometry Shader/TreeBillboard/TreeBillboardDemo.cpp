@@ -24,7 +24,7 @@
 #include "Vertex.h"
 #include "RenderStates.h"
 #include "Waves.h"
-
+using namespace DirectX;
 enum RenderOptions
 {
 	Lighting = 0,
@@ -214,14 +214,14 @@ bool TreeBillboardApp::Init()
 	InputLayouts::InitAll(md3dDevice);
 	RenderStates::InitAll(md3dDevice);
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/grass.dds", 0, 0, &mGrassMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/grass.dds", 0, &mGrassMapSRV ));
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/water2.dds", 0, 0, &mWavesMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/water2.dds",0, &mWavesMapSRV ));
 
-	HR(D3DX11CreateShaderResourceViewFromFile(md3dDevice, 
-		L"Textures/WireFence.dds", 0, 0, &mBoxMapSRV, 0 ));
+	HR(CreateDDSTextureFromFile(md3dDevice,
+		L"Textures/WireFence.dds", 0, &mBoxMapSRV));
 
 	std::vector<std::wstring> treeFilenames;
 	treeFilenames.push_back(L"Textures/tree0.dds");
@@ -230,7 +230,7 @@ bool TreeBillboardApp::Init()
 	treeFilenames.push_back(L"Textures/tree3.dds");
 
 	mTreeTextureMapArraySRV = d3dHelper::CreateTexture2DArraySRV(
-		md3dDevice, md3dImmediateContext, treeFilenames, DXGI_FORMAT_R8G8B8A8_UNORM);
+		md3dDevice, md3dImmediateContext, treeFilenames, DXGI_FORMAT_R8G8B8A8_UNORM,0,0);
 
 	BuildLandGeometryBuffers();
 	BuildWaveGeometryBuffers();

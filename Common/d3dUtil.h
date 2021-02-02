@@ -69,6 +69,13 @@ class d3dHelper
 public:
 
 	static ID3D11ShaderResourceView* CreateRandomTexture1DSRV(ID3D11Device* device);
+
+	static ID3D11ShaderResourceView* CreateTexture2DArraySRV(
+		ID3D11Device* device, ID3D11DeviceContext* context,
+		std::vector<std::wstring>& filenames,
+		DXGI_FORMAT format,
+		UINT filter,
+		UINT mipFilter);
 };
 
 class TextHelper
