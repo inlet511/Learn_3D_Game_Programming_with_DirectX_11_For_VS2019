@@ -3,6 +3,17 @@
 //***************************************************************************************
 
 #include "d3dUtil.h"
+#include "WICTextureLoader11.h"
+
+#ifndef SAFE_RELEASE
+#define SAFE_RELEASE(x) \
+   if(x != NULL)        \
+   {                    \
+      x->Release();     \
+      x = NULL;         \
+   }
+#endif
+
 using namespace DirectX;
 
 ID3D11ShaderResourceView* d3dHelper::CreateRandomTexture1DSRV(ID3D11Device* device)
@@ -58,101 +69,167 @@ ID3D11ShaderResourceView* d3dHelper::CreateRandomTexture1DSRV(ID3D11Device* devi
 	return randomTexSRV;
 }
 
-ID3D11ShaderResourceView* d3dHelper::CreateTexture2DArraySRV(ID3D11Device* device, ID3D11DeviceContext* context, std::vector<std::wstring>& filenames, DXGI_FORMAT format, UINT filter, UINT mipFilter)
-{
-	//
-// Load the texture elements individually from file. These textures
-// won't be used by the GPU (0 bind flags), they are just used to
-// load the image data from file. We use the STAGING usage so the
-// CPU can read the resource.
-//
-	UINT size = filenames.size();
-	std::vector<ID3D11Texture2D*> srcTex(size);
 
-	for (UINT i = 0; i < size; ++i)
+
+HRESULT d3dHelper::CreateTexture2DArrayFromFile(ID3D11Device* d3dDevice, ID3D11DeviceContext* d3dDeviceContext, const std::vector<std::wstring>& fileNames, ID3D11Texture2D** textureArray, ID3D11ShaderResourceView** textureArrayView, bool generateMips /*= false*/)
+{
+	// 检查设备、文件名数组是否非空
+	if (!d3dDevice || fileNames.empty())
+		return E_INVALIDARG;
+
+	HRESULT hr;
+	UINT arraySize = (UINT)fileNames.size();
+
+	// ******************
+	// 读取第一个纹理
+	//
+	ID3D11Texture2D* pTexture;
+	D3D11_TEXTURE2D_DESC texDesc;
+
+	hr = CreateDDSTextureFromFileEx(d3dDevice,
+		fileNames[0].c_str(), 0, D3D11_USAGE_STAGING, 0,
+		D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ,
+		0, false, reinterpret_cast<ID3D11Resource**>(&pTexture), nullptr);
+	if (FAILED(hr))
 	{
-		ID3D11ShaderResourceView* mDiffuseMapSRV(0);
-		
-		/*D3DX11_IMAGE_LOAD_INFO loadInfo;
-		loadInfo.Width = D3DX11_FROM_FILE;
-		loadInfo.Height = D3DX11_FROM_FILE;
-		loadInfo.Depth = D3DX11_FROM_FILE;
-		loadInfo.FirstMipLevel = 0;
-		loadInfo.MipLevels = D3DX11_FROM_FILE;
-		loadInfo.Usage = D3D11_USAGE_STAGING;
-		loadInfo.BindFlags = 0;
-		loadInfo.CpuAccessFlags = D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ;
-		loadInfo.MiscFlags = 0;
-		loadInfo.Format = format;
-		loadInfo.Filter = filter;
-		loadInfo.MipFilter = mipFilter;
-		loadInfo.pSrcInfo = 0;*/
-		HR(CreateDDSTextureFromFile(device, filenames[i].c_str(),
-			(ID3D11Resource**)&srcTex[i], &mDiffuseMapSRV));
+		hr = CreateWICTextureFromFileEx(d3dDevice,
+			fileNames[0].c_str(), 0, D3D11_USAGE_STAGING, 0,
+			D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ,
+			0, false, reinterpret_cast<ID3D11Resource**>(&pTexture), nullptr);
 	}
+
+	if (FAILED(hr))
+		return hr;
+
+
+
+
+	// 读取创建好的纹理信息
+	pTexture->GetDesc(&texDesc);
+
+	// ******************
+	// 创建纹理数组
 	//
-	// Create the texture array. Each element in the texture
-	// array has the same format/dimensions.
-	//
-	D3D11_TEXTURE2D_DESC texElementDesc;
-	srcTex[0]->GetDesc(&texElementDesc);
 	D3D11_TEXTURE2D_DESC texArrayDesc;
-	texArrayDesc.Width = texElementDesc.Width;
-	texArrayDesc.Height = texElementDesc.Height;
-	texArrayDesc.MipLevels = texElementDesc.MipLevels;
-	texArrayDesc.ArraySize = size;
-	texArrayDesc.Format = texElementDesc.Format;
-	texArrayDesc.SampleDesc.Count = 1;
+	texArrayDesc.Width = texDesc.Width;
+	texArrayDesc.Height = texDesc.Height;
+	texArrayDesc.MipLevels = generateMips ? 0 : texDesc.MipLevels;
+	texArrayDesc.ArraySize = arraySize;
+	texArrayDesc.Format = texDesc.Format;
+	texArrayDesc.SampleDesc.Count = 1;		// 不能使用多重采样
 	texArrayDesc.SampleDesc.Quality = 0;
 	texArrayDesc.Usage = D3D11_USAGE_DEFAULT;
-	texArrayDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+	texArrayDesc.BindFlags = D3D11_BIND_SHADER_RESOURCE | (generateMips ? D3D11_BIND_RENDER_TARGET : 0);
 	texArrayDesc.CPUAccessFlags = 0;
-	texArrayDesc.MiscFlags = 0;
-	ID3D11Texture2D* texArray = 0;
+	texArrayDesc.MiscFlags = (generateMips ? D3D11_RESOURCE_MISC_GENERATE_MIPS : 0);
 
-	HR(device->CreateTexture2D(&texArrayDesc, 0, &texArray));
-	//
-	// Copy individual texture elements into texture array.
-	//
-	// for each texture element…
-	for (UINT texElement = 0; texElement < size; ++texElement)
+	ID3D11Texture2D* pTexArray = nullptr;
+	HR(d3dDevice->CreateTexture2D(&texArrayDesc, nullptr, &pTexArray));
+
+
+	// 获取实际创建的纹理数组信息
+	pTexArray->GetDesc(&texArrayDesc);
+	UINT updateMipLevels = generateMips ? 1 : texArrayDesc.MipLevels;
+
+	// 写入到纹理数组第一个元素
+	D3D11_MAPPED_SUBRESOURCE mappedTex2D;
+	for (UINT i = 0; i < updateMipLevels; ++i)
 	{
-		// for each mipmap level…
-		for (UINT mipLevel = 0; mipLevel < texElementDesc.MipLevels; ++mipLevel)
+		d3dDeviceContext->Map(pTexture, i, D3D11_MAP_READ, 0, &mappedTex2D);
+		d3dDeviceContext->UpdateSubresource(pTexArray, i, nullptr,
+			mappedTex2D.pData, mappedTex2D.RowPitch, mappedTex2D.DepthPitch);
+		d3dDeviceContext->Unmap(pTexture, i);
+	}
+	SAFE_RELEASE(pTexture);
+
+	// ******************
+	// 读取剩余的纹理并加载入纹理数组
+	//
+	D3D11_TEXTURE2D_DESC currTexDesc;
+	for (UINT i = 1; i < texArrayDesc.ArraySize; ++i)
+	{
+		hr = CreateDDSTextureFromFileEx(d3dDevice,
+			fileNames[0].c_str(), 0, D3D11_USAGE_STAGING, 0,
+			D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ,
+			0, false, reinterpret_cast<ID3D11Resource**>(&pTexture), nullptr);
+		if (FAILED(hr))
 		{
-			D3D11_MAPPED_SUBRESOURCE mappedTex2D;
-			HR(context->Map(srcTex[texElement],	mipLevel, D3D11_MAP_READ, 0, &mappedTex2D));
-			context->UpdateSubresource(
-				texArray,
-				D3D11CalcSubresource(mipLevel,texElement,texElementDesc.MipLevels),
-				0,
-				mappedTex2D.pData,
-				mappedTex2D.RowPitch,
-				mappedTex2D.DepthPitch);
-			context->Unmap(srcTex[texElement], mipLevel);
+			hr = CreateWICTextureFromFileEx(d3dDevice,
+				fileNames[0].c_str(), 0, D3D11_USAGE_STAGING, 0,
+				D3D11_CPU_ACCESS_WRITE | D3D11_CPU_ACCESS_READ,
+				0, WIC_LOADER_DEFAULT, reinterpret_cast<ID3D11Resource**>(&pTexture), nullptr);
 		}
+
+		if (FAILED(hr))
+		{
+			SAFE_RELEASE(pTexArray);
+			return hr;
+		}
+
+		pTexture->GetDesc(&currTexDesc);
+		// 需要检验所有纹理的mipLevels，宽度和高度，数据格式是否一致，
+		// 若存在数据格式不一致的情况，请使用dxtex.exe(DirectX Texture Tool)
+		// 将所有的图片转成一致的数据格式
+		if (currTexDesc.MipLevels != texDesc.MipLevels || currTexDesc.Width != texDesc.Width ||
+			currTexDesc.Height != texDesc.Height || currTexDesc.Format != texDesc.Format)
+		{
+			SAFE_RELEASE(pTexArray);
+			SAFE_RELEASE(pTexture);
+			return E_FAIL;
+		}
+		// 写入到纹理数组的对应元素
+		for (UINT j = 0; j < updateMipLevels; ++j)
+		{
+			// 允许映射索引i纹理中，索引j的mipmap等级的2D纹理
+			d3dDeviceContext->Map(pTexture, j, D3D11_MAP_READ, 0, &mappedTex2D);
+			d3dDeviceContext->UpdateSubresource(pTexArray,
+				D3D11CalcSubresource(j, i, texArrayDesc.MipLevels),	// i * mipLevel + j
+				nullptr, mappedTex2D.pData, mappedTex2D.RowPitch, mappedTex2D.DepthPitch);
+			// 停止映射
+			d3dDeviceContext->Unmap(pTexture, j);
+		}
+		SAFE_RELEASE(pTexture);
 	}
 
+	// ******************
+	// 必要时创建纹理数组的SRV
 	//
-	// Create a resource view to the texture array.
-	//
-	D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
-	viewDesc.Format = texArrayDesc.Format;
-	viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
-	viewDesc.Texture2DArray.MostDetailedMip = 0;
-	viewDesc.Texture2DArray.MipLevels = texArrayDesc.MipLevels;
-	viewDesc.Texture2DArray.FirstArraySlice = 0;
-	viewDesc.Texture2DArray.ArraySize = size;
-	ID3D11ShaderResourceView* texArraySRV = 0;
-	HR(device->CreateShaderResourceView(texArray, &viewDesc, &texArraySRV));
+	if (generateMips || textureArrayView)
+	{
+		D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc;
+		viewDesc.Format = texArrayDesc.Format;
+		viewDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2DARRAY;
+		viewDesc.Texture2DArray.MostDetailedMip = 0;
+		viewDesc.Texture2DArray.MipLevels = -1;
+		viewDesc.Texture2DArray.FirstArraySlice = 0;
+		viewDesc.Texture2DArray.ArraySize = arraySize;
 
-	//
-	// Cleanup--we only need the resource view.
-	//
-	ReleaseCOM(texArray);
-	for (UINT i = 0; i < size; ++i)
-		ReleaseCOM(srcTex[i]);
-	return texArraySRV;
+		ID3D11ShaderResourceView* pTexArraySRV;
+		hr = d3dDevice->CreateShaderResourceView(pTexArray, &viewDesc, &pTexArraySRV);
+		if (FAILED(hr))
+		{
+			SAFE_RELEASE(pTexArray);
+			return hr;
+		}
+
+		// 生成mipmaps
+		if (generateMips)
+		{
+			d3dDeviceContext->GenerateMips(pTexArraySRV);
+		}
+
+		if (textureArrayView)
+			*textureArrayView = pTexArraySRV;
+		else
+			SAFE_RELEASE(pTexArraySRV);
+	}
+
+	if (textureArray)
+		*textureArray = pTexArray;
+	else
+		SAFE_RELEASE(pTexArray);
+
+	return S_OK;
 }
 
 void ExtractFrustumPlanes(XMFLOAT4 planes[6], CXMMATRIX T)

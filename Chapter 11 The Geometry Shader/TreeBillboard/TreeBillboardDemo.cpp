@@ -229,8 +229,12 @@ bool TreeBillboardApp::Init()
 	treeFilenames.push_back(L"Textures/tree2.dds");
 	treeFilenames.push_back(L"Textures/tree3.dds");
 
-	mTreeTextureMapArraySRV = d3dHelper::CreateTexture2DArraySRV(
-		md3dDevice, md3dImmediateContext, treeFilenames, DXGI_FORMAT_R8G8B8A8_UNORM,0,0);
+	d3dHelper::CreateTexture2DArrayFromFile(
+		md3dDevice,
+		md3dImmediateContext,
+		treeFilenames,
+		0,
+		&mTreeTextureMapArraySRV);
 
 	BuildLandGeometryBuffers();
 	BuildWaveGeometryBuffers();
@@ -507,8 +511,8 @@ void TreeBillboardApp::OnMouseMove(WPARAM btnState, int x, int y)
 		float dy = XMConvertToRadians(0.25f*static_cast<float>(y - mLastMousePos.y));
 
 		// Update angles based on input to orbit camera around box.
-		mTheta += dx;
-		mPhi   += dy;
+		mTheta -= dx;
+		mPhi   -= dy;
 
 		// Restrict the angle mPhi.
 		mPhi = MathHelper::Clamp(mPhi, 0.1f, MathHelper::Pi-0.1f);

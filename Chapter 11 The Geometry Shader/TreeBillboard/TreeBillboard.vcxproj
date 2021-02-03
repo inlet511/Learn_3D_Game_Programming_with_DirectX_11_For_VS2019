@@ -91,6 +91,7 @@
     <ClCompile Include="..\..\Common\LightHelper.cpp" />
     <ClCompile Include="..\..\Common\MathHelper.cpp" />
     <ClCompile Include="..\..\Common\Waves.cpp" />
+    <ClCompile Include="..\..\Common\WICTextureLoader11.cpp" />
     <ClCompile Include="Effects.cpp" />
     <ClCompile Include="RenderStates.cpp" />
     <ClCompile Include="TreeBillboardDemo.cpp" />
@@ -107,6 +108,7 @@
     <ClInclude Include="..\..\Common\LightHelper.h" />
     <ClInclude Include="..\..\Common\MathHelper.h" />
     <ClInclude Include="..\..\Common\Waves.h" />
+    <ClInclude Include="..\..\Common\WICTextureLoader11.h" />
     <ClInclude Include="Effects.h" />
     <ClInclude Include="RenderStates.h" />
     <ClInclude Include="Vertex.h" />

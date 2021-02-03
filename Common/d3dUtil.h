@@ -70,12 +70,13 @@ public:
 
 	static ID3D11ShaderResourceView* CreateRandomTexture1DSRV(ID3D11Device* device);
 
-	static ID3D11ShaderResourceView* CreateTexture2DArraySRV(
-		ID3D11Device* device, ID3D11DeviceContext* context,
-		std::vector<std::wstring>& filenames,
-		DXGI_FORMAT format,
-		UINT filter,
-		UINT mipFilter);
+	static HRESULT CreateTexture2DArrayFromFile(
+		ID3D11Device* d3dDevice,
+		ID3D11DeviceContext* d3dDeviceContext,
+		const std::vector<std::wstring>& fileNames,
+		ID3D11Texture2D** textureArray,
+		ID3D11ShaderResourceView** textureArrayView,
+		bool generateMips = false);
 };
 
 class TextHelper
